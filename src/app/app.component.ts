@@ -1,31 +1,84 @@
+/// <reference types="@types/googlemaps" />
 import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { ViewChild } from '@angular/core';
+declare let google: any;
 
 @Component({
   selector: 'app-root',
-  template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div style="text-align:center">
-      <h1>
-        Welcome to {{title}}!
-      </h1>
-      <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-    </div>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-      </li>
-    </ul>
-    <router-outlet></router-outlet>
-  `,
-  styles: []
+  templateUrl: 'app.component.html',
+  styles: ['::ng-deep body { background: white; margin: 0px; }']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  screen = 'home';
+  sidebar = false;
+  state = "home";
+  // @ViewChild('gmap') gmapElement: any;
   title = 'govhack';
+  @ViewChild('gmap', null) gmapElement: any;
+  map: google.maps.Map;
+
+  time = 0;
+  hour = 0;
+  minute = 0;
+  second = 0;
+
+  
+  toggleSidebar() {
+    this.sidebar = !this.sidebar;
+  }
+  // -34.9192275,138.6060772,21z
+  uluru = {lat: -34.9192275, lng: 138.6060772};
+  changeState(state) {
+    this.state = state;
+  }
+  changeToDetails() {
+    this.changeState('detail');
+  }
+
+  animate() {
+    this.time = 1567921127434 - new Date().getTime();
+    this.hour = Math.floor(this.time / (60 * 60 * 1000));
+    this.minute = Math.floor((this.time % (60 * 60 * 1000)) / (60 * 1000));
+    this.second = Math.floor(((this.time % (60 * 60 * 1000)) % (60 * 1000)) / 1000);
+    requestAnimationFrame(this.animate.bind(this));
+  }
+  
+
+  loadMaps() {
+    var mapProp = {
+      // -34.9268594,138.598205
+      center: new google.maps.LatLng(-34.9268594, 138.598205),
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
+    let contentString = '<div id="content">'+
+            '<h1 id="firstHeading" class="firstHeading">North Bridge</h1>'+
+            '<img [class.mat-elevation-z2]="true" style="width: 100px; height: auto; margin: 10px;" src="http://sahistoryhub.com.au/sites/default/files/styles/gallery_full_crop/public/GN01906.jpg"/>'+
+            '<div><button mat-stroked-button ng-click="changeState(\'detail\')">View Details</button></div>'+
+            '</div>';
+    let infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    let marker = new google.maps.Marker({
+      position: this.uluru, 
+      map: this.map, 
+      title: 'Flinders Monument',
+      label: 'B',
+      optimized: false
+    });
+    marker.addListener('click', this.changeToDetails.bind(this));
+    // marker.addListener('click', function() {
+    //   infowindow.open(this.map, marker);
+    // });
+    // this.map.setOptions({draggable: true});
+
+  }
+  Math = Math;
+
+  ngOnInit() {
+    this.animate.bind(this)();
+    // this.loadMaps();
+  }
 }
