@@ -40,12 +40,33 @@
            </mat-list>
       </div>
     </div>
+    <div *ngIf="state === 'landing'" style="flex: 1 1 0;  height: 92vh; overflow-y: scroll">
+      <div style="">
+        <h3>Scavenger Hunt Introduction</h3>
+        <p style="padding: 10px;">
+          Today's time challenge is to recapture historical photographs.
+          You will be presented with a map with locations of the historical locations of the challenge.
+          <br/>
+          <br/>
+          Click on a location to display a historical photo of that location.
+          Your task then is to recapture the image, to see how thing have changed over time.
+          Good luck!
+        </p>
+      <div style="padding: 5px"><button mat-stroked-button (click)="changeState('map')">Start Challenge!</button></div>
+      </div>
+    </div>
     <div *ngIf="state === 'home'" style="flex: 1 1 0;  height: 92vh; overflow-y: scroll">
       <div style="">
-        <h3>Select a Challenge:</h3>
-        <div style="padding: 5px"><button mat-stroked-button (click)="changeState('map')">Scavenger Hunt</button></div>
-      <div style="padding: 5px"><button mat-stroked-button (click)="changeState('map')">City Capture</button></div>
+        <h3>Challenge Selection</h3>
+        <mat-divider></mat-divider>
+        <h4>Today's Timed Challenge:</h4>
+        <div style="padding: 5px; padding-bottom: 10px;"><button mat-stroked-button (click)="changeState('landing')">Scavenger Hunt</button></div>
+        <mat-divider></mat-divider>
+        <h4>Untimed Challenges:</h4>
+      <div style="padding: 5px"><button mat-stroked-button>Significant Monuments</button></div>
       <div style="padding: 5px"><button mat-stroked-button (click)="changeState('old')">Historical Faces</button></div>
+      <div style="padding: 5px"><button mat-stroked-button >Fossils and Meteorites</button></div>
+      <div style="padding: 5px"><button mat-stroked-button >Flora and Fauna</button></div>
       </div>
     </div>
 

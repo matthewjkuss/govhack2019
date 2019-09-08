@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   }
 
   animate() {
-    this.time = 1567921127434 - new Date().getTime();
+    this.time = 1567981127434 - new Date().getTime();
     this.hour = Math.floor(this.time / (60 * 60 * 1000));
     this.minute = Math.floor((this.time % (60 * 60 * 1000)) / (60 * 1000));
     this.second = Math.floor(((this.time % (60 * 60 * 1000)) % (60 * 1000)) / 1000);
