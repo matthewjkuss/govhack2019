@@ -10,6 +10,7 @@ declare let google: any;
   styles: ['::ng-deep body { background: white; margin: 0px; }']
 })
 export class AppComponent implements OnInit {
+  app = 'photo';
   screen = 'home';
   sidebar = false;
   state = "home";
@@ -27,8 +28,8 @@ export class AppComponent implements OnInit {
   toggleSidebar() {
     this.sidebar = !this.sidebar;
   }
-  // -34.9192275,138.6060772,21z
-  uluru = {lat: -34.9192275, lng: 138.6060772};
+  // -34.9192275,138.6060772,21z : -34.9252553,138.5924792
+  uluru = {lat: -34.9252553, lng: 138.5935892};
   changeState(state) {
     this.state = state;
   }
@@ -47,8 +48,8 @@ export class AppComponent implements OnInit {
 
   loadMaps() {
     var mapProp = {
-      // -34.9268594,138.598205
-      center: new google.maps.LatLng(-34.9268594, 138.598205),
+      // -34.9268594,138.598205 : -34.9252553,138.5924792
+      center: new google.maps.LatLng(-34.9252553, 138.5924792),
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
